@@ -1,36 +1,27 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+today = Date.today
+two_days_ago = Date.today - 2.days
+three_days_ago = Date.today - 3.days
+dates = [today, two_days_ago, three_days_ago]
 
 User.destroy_all
-Profile.destroy_all
 TodoList.destroy_all
-TodoItem.destroy_all
 
-due_date = Date.today + 1.year
+100.times { |index| TodoList.create! list_name: "List #{index}", list_due_date: dates.sample }
 
-Profile.create! [
-                    { first_name: "Carly",   last_name: "Fiorina", birth_year: 1954, gender: "female" },
-                    { first_name: "Donald",  last_name: "Trump",   birth_year: 1946, gender: "male" },
-                    { first_name: "Ben",     last_name: "Carson",  birth_year: 1951, gender: "male" },
-                    { first_name: "Hillary", last_name: "Clinton", birth_year: 1947, gender: "female" }
-                ]
-
-profiles = Profile.all
-
-profiles.each do |profile|
-  profile.create_user( username: profile.last_name, password_digest: profile.birth_year )
-  profile.user.todo_lists.create!(list_name: profile.first_name, list_due_date: due_date )
+TodoList.all.each do |list|
+  list.todo_items.create! [
+    { title: "Task 1", due_date: dates.sample, description: "very important task TEST", completed: false },
+    { title: "Task 2", due_date: dates.sample, description: "do something else TEST", completed: true},
+    { title: "Task 3", due_date: dates.sample, description: "learn Action Pack TEST", completed: true}
+  ]
 end
 
-todolists = TodoList.all
+users = User.create! [
+  { username: "jim", password: "abc123" },
+  { username: "rich", password: "123abc" }
+]
 
-todolists.each do |list|
-  5.times do
-    list.todo_items.create!(due_date: due_date, title: "Title", description: "Description")
-  end
+TodoList.all.each do |list|
+  list.user = users.sample
+  list.save!
 end
