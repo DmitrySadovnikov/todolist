@@ -5,14 +5,18 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+
+  <% if logged_in? %>
+  	<div style='float: right;'>
+  		Logged in as <%= current_user.username %> |
+  		<%= link_to "Logout", logout_path, method: :delete %>
+  	</div>
+  	<% end %>
+
 </head>
 <body>
 
 <%= yield %>
-<% if logged_in? %>
-	<div style='float: right;'>
-		Logged in as <%= current_user.username %> | <%=link_to "Logout", logout_path, method: :delete %>
-	</div>
-<% end %>
+
 </body>
 </html>

@@ -2,8 +2,8 @@
 
 one:
   list_name: MyString
-  list_due_date: 2016-05-30
+  list_due_date: 2016-04-30
 
 two:
   list_name: MyString
-  list_due_date: 2016-05-30
+  list_due_date: 2016-04-30

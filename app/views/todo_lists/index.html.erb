@@ -23,8 +23,10 @@
     <% end %>
   </tbody>
 </table>
+<p/>
+
+<%= will_paginate @todo_lists %>
 
 <br>
 
 <%= link_to 'New Todo list', new_todo_list_path %>
-<%= will_paginate @todo_lists %>
